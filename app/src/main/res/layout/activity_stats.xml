@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_gravity="center"
+	android:layout_margin="16dp"
+	android:gravity="center"
+	tools:context=".StatsActivity">
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<TextView
+			android:id="@+id/textView"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Shape"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="@+id/guide_start" />
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Circle"
+			app:layout_constraintStart_toStartOf="@+id/textView"
+			app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+		<TextView
+			android:id="@+id/textView4"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Square"
+			app:layout_constraintStart_toStartOf="@+id/textView"
+			app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+		<TextView
+			android:id="@+id/textView2"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Triangle"
+			app:layout_constraintStart_toStartOf="@+id/textView" />
+	</LinearLayout>
+
+	<View
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content" />
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Count"
+			app:layout_constraintStart_toEndOf="@+id/textView"
+			app:layout_constraintTop_toTopOf="@+id/guide_start" />
+
+		<TextView
+			android:id="@+id/circle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintBottom_toBottomOf="@+id/textView5"
+			app:layout_constraintStart_toEndOf="@+id/textView5"
+			app:layout_constraintTop_toTopOf="@+id/textView5"
+			tools:text="12" />
+
+		<TextView
+			android:id="@+id/square"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintBottom_toBottomOf="@+id/textView4"
+			app:layout_constraintStart_toEndOf="@+id/textView4"
+			app:layout_constraintTop_toTopOf="@+id/textView4"
+			tools:text="12" />
+
+		<TextView
+			android:id="@+id/triangle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@+id/textView2"
+			app:layout_constraintTop_toTopOf="@+id/textView2"
+			tools:text="12" />
+	</LinearLayout>
+
+</LinearLayout>
