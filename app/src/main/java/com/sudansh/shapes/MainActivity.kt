@@ -1,47 +1,115 @@
 package com.sudansh.shapes
 
 import android.app.Activity
-import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.FrameLayout
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : Activity() {
+class MainActivity : Activity(), ClickListener {
+	private val listActions = mutableListOf<Pair<ShapeView, Action>>()
+	private var cx: Int = 0
+	private var cy: Int = 0
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_main)
-		circle.setOnClickListener { drawNext(Shape.TRIANGLE) }
-		triangle.setOnClickListener { drawNext(Shape.SQUARE) }
-		square.setOnClickListener { drawNext(Shape.CIRCLE) }
+		circle.setOnClickListener { draw(Shape.CIRCLE) }
+		triangle.setOnClickListener { draw(Shape.TRIANGLE) }
+		square.setOnClickListener { draw(Shape.SQUARE) }
 		stats.setOnClickListener { openStats() }
 		undo.setOnClickListener { undoShape() }
 	}
 
-	private fun drawNext(nextShape: Shape) {
-		triangle.text = String.format("%d", shape.shapeCounts[Shape.TRIANGLE] ?: 0)
-		circle.text = String.format("%d", shape.shapeCounts[Shape.CIRCLE] ?: 0)
-		square.text = String.format("%d", shape.shapeCounts[Shape.SQUARE] ?: 0)
-		shape.drawNextShape(nextShape)
+	private fun draw(nextShape: Shape) {
+		generateRandomPoint()
+		ShapeView(this).apply {
+			setShape(nextShape)
+			layoutParams = FrameLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+				marginStart = cx
+				topMargin = cy
+			}
+			setListener(this@MainActivity)
+		}.also {
+			frame.addView(it)
+			listActions.add(Pair(it, Action.NEW))
+		}
 	}
 
+	/**
+	 * Undo last action performed
+	 */
 	private fun undoShape() {
-		shape.undoShape()
+		if (listActions.isEmpty()) return
+		listActions.last().let {
+			when (it.second) {
+				Action.NEW -> frame.removeView(it.first)
+				Action.CHANGE -> it.first.undoShape()
+			}
+			listActions.remove(it)
+		}
+
 	}
 
 	private fun openStats() {
-		val options = ActivityOptions.makeSceneTransitionAnimation(this,
-																   stats,
-																   getString(R.string.transition_stats))
-
-		val revealX = (stats.x + stats.width) / 2
-		val revealY = (stats.y + stats.height) / 2
-		val intent = Intent(this, StatsActivity::class.java).apply {
-			putExtra(StatsActivity.KEY_STATS_CIRCLE, shape.shapeCounts[Shape.TRIANGLE])
-			putExtra(StatsActivity.KEY_STATS_TRIANGLE, shape.shapeCounts[Shape.CIRCLE])
-			putExtra(StatsActivity.KEY_STATS_SQUARE, shape.shapeCounts[Shape.SQUARE])
+		var circle = 0
+		var square = 0
+		var triangle = 0
+		listActions.filter { it.second == Action.NEW }.forEach {
+			when (it.first.currentShape) {
+				Shape.CIRCLE -> circle++
+				Shape.TRIANGLE -> triangle++
+				Shape.SQUARE -> square++
+			}
 		}
-		startActivity(intent, options.toBundle())
+		Intent(this, StatsActivity::class.java).apply {
+			putExtra(StatsActivity.KEY_STATS_CIRCLE, circle)
+			putExtra(StatsActivity.KEY_STATS_TRIANGLE, triangle)
+			putExtra(StatsActivity.KEY_STATS_SQUARE, square)
+		}.also {
+			startActivityForResult(it, REQUEST_DELETE)
+		}
+	}
+
+	override fun onClick(shapeView: ShapeView, action: Action) {
+		if (action == Action.DELETE) {
+			frame.removeView(shapeView)
+			listActions.remove(listActions.firstOrNull { it.first == shapeView })
+		} else {
+			listActions.add(Pair(shapeView, Action.CHANGE))
+		}
+	}
+
+	/**
+	 * Generates random points in the fram eto draw a shape
+	 */
+	private fun generateRandomPoint() {
+		this.cx = (0 until (frame.width - 64.px)).randomInt()
+		this.cy = (0 until (frame.height - 64.px)).randomInt()
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (requestCode == REQUEST_DELETE && resultCode == RESULT_OK) {
+			val delete = data?.extras?.getSerializable(KEY_DELETE) as Shape?
+			delete?.let {
+				deleteShapes(it)
+			}
+		}
+	}
+
+	private fun deleteShapes(shape: Shape) {
+		listActions.filter { it.first.currentShape == shape }
+			.forEach {
+				frame.removeView(it.first)
+				listActions.remove(it)
+			}
+	}
+
+	companion object {
+		const val KEY_DELETE = "KEY_DELETE"
+		const val REQUEST_DELETE = 101
 	}
 
 }

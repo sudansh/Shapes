@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
@@ -7,64 +7,72 @@
 	android:layout_margin="16dp"
 	tools:context=".MainActivity">
 
-	<com.sudansh.shapes.Circle
-		android:id="@+id/shape"
-		android:layout_width="0dp"
-		android:layout_height="0dp"
-		android:background="#74000000"
-		app:layout_constraintBottom_toTopOf="@+id/undo"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintTop_toTopOf="parent" />
+	<android.support.constraint.ConstraintLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
 
-	<Button
-		android:id="@+id/undo"
-		style="@style/Base.Widget.AppCompat.Button.Colored"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:drawableStart="@drawable/ic_undo"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@+id/square"
-		app:layout_constraintHorizontal_chainStyle="spread_inside"
-		app:layout_constraintStart_toStartOf="parent" />
+		<FrameLayout
+			android:id="@+id/frame"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			app:layout_constraintBottom_toTopOf="@+id/undo"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toStartOf="parent"
+			app:layout_constraintTop_toTopOf="parent" />
 
-	<Button
-		android:id="@+id/square"
-		style="@style/Base.Widget.AppCompat.Button.Colored"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:drawableStart="@drawable/ic_square"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@id/circle"
-		app:layout_constraintStart_toEndOf="@+id/undo" />
+		<Button
+			android:id="@+id/undo"
+			style="@style/Base.Widget.AppCompat.Button.Colored"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:drawableStart="@drawable/ic_undo"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@+id/square"
+			app:layout_constraintHorizontal_chainStyle="spread_inside"
+			app:layout_constraintStart_toStartOf="parent" />
 
-	<Button
-		android:id="@+id/circle"
-		style="@style/Base.Widget.AppCompat.Button.Colored"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:drawableStart="@drawable/ic_circle"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@id/triangle"
-		app:layout_constraintStart_toEndOf="@+id/square" />
+		<Button
+			android:id="@+id/square"
+			style="@style/Base.Widget.AppCompat.Button.Colored"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:drawableStart="@drawable/ic_square"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/circle"
+			app:layout_constraintStart_toEndOf="@+id/undo" />
 
-	<Button
-		android:id="@+id/triangle"
-		style="@style/Base.Widget.AppCompat.Button.Colored"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:drawableStart="@drawable/ic_triangle"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toStartOf="@id/stats"
-		app:layout_constraintStart_toEndOf="@+id/circle" />
+		<Button
+			android:id="@+id/circle"
+			style="@style/Base.Widget.AppCompat.Button.Colored"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:drawableStart="@drawable/ic_circle"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/triangle"
+			app:layout_constraintStart_toEndOf="@+id/square" />
 
-	<Button
-		android:id="@+id/stats"
-		style="@style/Base.Widget.AppCompat.Button.Colored"
-		android:layout_width="0dp"
-		android:layout_height="wrap_content"
-		android:drawableStart="@drawable/ic_stats"
-		app:layout_constraintBottom_toBottomOf="parent"
-		app:layout_constraintEnd_toEndOf="parent"
-		app:layout_constraintStart_toEndOf="@+id/triangle" />
-</android.support.constraint.ConstraintLayout>
+		<Button
+			android:id="@+id/triangle"
+			style="@style/Base.Widget.AppCompat.Button.Colored"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:drawableStart="@drawable/ic_triangle"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toStartOf="@id/stats"
+			app:layout_constraintStart_toEndOf="@+id/circle" />
+
+		<Button
+			android:id="@+id/stats"
+			style="@style/Base.Widget.AppCompat.Button.Colored"
+			android:layout_width="0dp"
+			android:layout_height="wrap_content"
+			android:drawableStart="@drawable/ic_stats"
+			app:layout_constraintBottom_toBottomOf="parent"
+			app:layout_constraintEnd_toEndOf="parent"
+			app:layout_constraintStart_toEndOf="@+id/triangle" />
+	</android.support.constraint.ConstraintLayout>
+
+	<include
+		android:id="@+id/bottomsheet"
+		layout="@layout/activity_stats" />
+</android.support.design.widget.CoordinatorLayout>
