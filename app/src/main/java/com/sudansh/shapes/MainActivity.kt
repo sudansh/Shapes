@@ -46,6 +46,7 @@ class MainActivity : Activity(), ClickListener {
 			when (it.second) {
 				Action.NEW -> frame.removeView(it.first)
 				Action.CHANGE -> it.first.undoShape()
+				Action.DELETE -> frame.addView(it.first)
 			}
 			listActions.remove(it)
 		}
@@ -73,11 +74,13 @@ class MainActivity : Activity(), ClickListener {
 	}
 
 	override fun onClick(shapeView: ShapeView, action: Action) {
-		if (action == Action.DELETE) {
-			frame.removeView(shapeView)
-			listActions.remove(listActions.firstOrNull { it.first == shapeView })
-		} else {
-			listActions.add(Pair(shapeView, Action.CHANGE))
+		when (action) {
+			Action.DELETE -> {
+				frame.removeView(shapeView)
+//				listActions.remove(listActions.firstOrNull { it.first == shapeView })
+				listActions.add(Pair(shapeView, Action.DELETE))
+			}
+			Action.CHANGE -> listActions.add(Pair(shapeView, Action.CHANGE))
 		}
 	}
 

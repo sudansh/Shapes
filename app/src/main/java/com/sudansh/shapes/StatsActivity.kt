@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.activity_stats.*
 class StatsActivity : Activity() {
 
 	private val resultIntent by lazy { Intent(this, MainActivity::class.java) }
+
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
 		setContentView(R.layout.activity_stats)
