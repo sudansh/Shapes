@@ -77,7 +77,6 @@ class MainActivity : Activity(), ClickListener {
 		when (action) {
 			Action.DELETE -> {
 				frame.removeView(shapeView)
-//				listActions.remove(listActions.firstOrNull { it.first == shapeView })
 				listActions.add(Pair(shapeView, Action.DELETE))
 			}
 			Action.CHANGE -> listActions.add(Pair(shapeView, Action.CHANGE))
